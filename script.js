@@ -10,12 +10,19 @@ function closeForm() {
     taskForm.style.display = 'none';
 }
 
-//Add Task
 function addTask() {
     const taskTitle = titleTask.value;
     if (taskTitle) {
         const taskItem = document.createElement('div');
         taskItem.className = 'task-item';
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'task-checkbox';
+        checkbox.onclick = function() {
+            markTaskAsDone(taskItem, checkbox);
+        };
+        taskItem.appendChild(checkbox);
 
         const taskText = document.createElement('span');
         taskText.innerText = taskTitle;
@@ -49,12 +56,10 @@ function addTask() {
     }
 }
 
-//Delete Task
 function deleteTask(taskItem) {
     taskList.removeChild(taskItem);
 }
 
-//Edit Task
 function editTask(taskItem, taskText, editInput, editButton) {
     if (editButton.innerText === 'Edit') {
         editInput.value = taskText.innerText;
@@ -66,5 +71,13 @@ function editTask(taskItem, taskText, editInput, editButton) {
         taskText.style.display = 'block';
         editInput.style.display = 'none';
         editButton.innerText = 'Edit';
+    }
+}
+
+function markTaskAsDone(taskItem, checkbox) {
+    if (checkbox.checked) {
+        taskItem.classList.add('done');
+    } else {
+        taskItem.classList.remove('done');
     }
 }
